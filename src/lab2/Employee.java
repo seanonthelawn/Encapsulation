@@ -35,23 +35,33 @@ public class Employee {
         this.lastName = lastName;
         this.ssn = ssn;
     }
+    
+    public void newHireProccess() {
+       this.meetWithHrForBenefitAndSalryInfo();
+       this.meetDepartmentStaff();
+       this.reviewDeptPolicies();
+       this.moveIntoCubicle(cubeId);
+    }
+    
+    private String dateHelperMethod() {
+        SimpleDateFormat sdf = new SimpleDateFormat("M/d/yyyy");
+        return sdf.format(orientationDate);         
+    }
 
     // Assume this must be performed first, and assume that an employee
     // would only do this once, upon being hired.
-    public void meetWithHrForBenefitAndSalryInfo() {
+    private void meetWithHrForBenefitAndSalryInfo() {
         metWithHr = true;
-        SimpleDateFormat sdf = new SimpleDateFormat("M/d/yyyy");
-        String fmtDate = sdf.format(orientationDate);        
+        String fmtDate = this.dateHelperMethod();
         System.out.println(firstName + " " + lastName + " met with Hr on "
             + fmtDate);
     }
 
     // Assume this must be performed first, and assume that an employee
     // would only do this once, upon being hired.:
-    public void meetDepartmentStaff() {
+    private void meetDepartmentStaff() {
         metDeptStaff = true;
-        SimpleDateFormat sdf = new SimpleDateFormat("M/d/yyyy");
-        String fmtDate = sdf.format(orientationDate);        
+        String fmtDate = this.dateHelperMethod();     
         System.out.println(firstName + " " + lastName + " met with Dept. Staff on "
             + fmtDate);
     }
@@ -61,8 +71,7 @@ public class Employee {
     // independently from other classes.
     public void reviewDeptPolicies() {
         reviewedDeptPolicies = true;
-        SimpleDateFormat sdf = new SimpleDateFormat("M/d/yyyy");
-        String fmtDate = sdf.format(orientationDate);        
+        String fmtDate = this.dateHelperMethod();       
         System.out.println(firstName + " " + lastName + " reviewed Dept policies on "
             + fmtDate);
     }
@@ -73,8 +82,7 @@ public class Employee {
     public void moveIntoCubicle(String cubeId) {
         this.cubeId = cubeId;
         this.movedIn = true;
-        SimpleDateFormat sdf = new SimpleDateFormat("M/d/yyyy");
-        String fmtDate = sdf.format(orientationDate);        
+        String fmtDate = this.dateHelperMethod();       
         System.out.println(firstName + " " + lastName + " moved into cubicle "
                 + cubeId + " on " + fmtDate);
     }
@@ -87,7 +95,10 @@ public class Employee {
     // allowed through validation.
     
     public void setFirstName(String firstName) {
-       this.firstName = firstName;
+       if (firstName == null || firstName.isEmpty()){
+            throw new IllegalArgumentException("Must enter first name");          
+        }
+        this.firstName = firstName;
     }
 
     public String getLastName() {
@@ -95,7 +106,11 @@ public class Employee {
     }
 
     public void setLastName(String lastName) {
-       this.lastName = lastName;
+       if (lastName == null || lastName.isEmpty()){
+            throw new IllegalArgumentException("Must enter last name");          
+        }
+        
+        this.lastName = lastName;
     }
 
     public String getSsn() {
@@ -103,6 +118,10 @@ public class Employee {
     }
 
     public void setSsn(String ssn) {
+        if (ssn.length() > 9 || ssn.length() < 9){
+            throw new IllegalArgumentException("SSN must be 9 digits");          
+        }
+        
         this.ssn = ssn;
     }
 
@@ -145,6 +164,10 @@ public class Employee {
 
     
     public void setCubeId(String cubeId) {
+        if(cubeId == null || cubeId.isEmpty()) {
+            
+        }
+        
         this.cubeId = cubeId;
     }
 
@@ -153,5 +176,9 @@ public class Employee {
     }
 
     public void setOrientationDate(Date orientationDate) {
+        if(orientationDate == null) {
+            System.out.println("Must enter valid orientation date");
+        }
+        
         this.orientationDate = orientationDate;
     }}
